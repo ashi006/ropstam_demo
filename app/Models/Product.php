@@ -9,6 +9,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = 'products';
+    protected $hidden = ['pivot'];
 
     protected $fillable = [
         'name', 'price', 'description', 'category_id'
@@ -18,7 +19,11 @@ class Product extends Model
         return $this->hasMany('App\Models\Feedback');
     }
 
-    public function images() {
+    public function featuredImage() {
+        return $this->hasOne('App\Models\ProductGallery');
+    }
+
+    public function gallery() {
         return $this->hasMany('App\Models\ProductGallery');
     }
 

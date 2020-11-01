@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/create', [DemoController::class, 'PopulateData']);
 Route::get('/getPage1Data', [DemoController::class, 'GetPage1Data']);
 Route::get('/getAllCategories', [DemoController::class, 'GetAllCategories']);
 Route::get('/getAllProducts', [DemoController::class, 'GetAllProducts']);
