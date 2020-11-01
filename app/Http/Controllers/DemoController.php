@@ -41,24 +41,23 @@ class DemoController extends Controller {
     public function GetPage1Data() {
         $categories = json_decode($this->GetAllCategories()->content());
         $products = json_decode($this->GetAllProducts()->content());
-        return response()->json(['categories'=> $categories->categories, 'products'=> $products->products]);
+        return response()->json(['categories'=> $categories, 'products'=> $products]);
     }
 
     public function GetAllCategories() {
         $categories = Category::all();
-        return response()->json(['categories'=> $categories]);
+        return response()->json($categories);
     }
 
     public function GetAllProducts() {
-        $products = [];
-        $prods = Product::select('id', 'name', 'price')->with('featuredImage')->orderBy('created_at', 'desc')->get();
-        return response()->json(['products'=> $prods]);
+        $products = Product::select('id', 'name', 'price')->with('featuredImage')->orderBy('created_at', 'desc')->get();
+        return response()->json($products);
     }
 
     public function ProductDetails($id) {
         $rating_count = Feedback::where('product_id', $id)->whereNotNull('rating')->count();
         $review_count = Feedback::where('product_id', $id)->whereNotNull('review')->count();
         $product = Product::with('gallery', 'sizes', 'feedbacks.user')->findOrFail($id);
-        return response()->json(['product'=> $product, 'rating_count'=> $rating_count, 'review_count'=>$review_count]);
+        return response()->json(['product'=> $product, 'rating_count'=> $rating_count, 'review_count'=> $review_count]);
     }
 }
